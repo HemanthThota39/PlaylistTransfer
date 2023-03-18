@@ -67,7 +67,7 @@ def transfer():
         amazon_url = request.form['amazon_url']
         songs = scrap.getSongs(playlist_url=amazon_url)
         track_ids = []
-        for song in list(songs)[:5]:
+        for song in list(songs):
             #search the song name in spotify and get the top result and add the track id to list of track_ids
             url = f"https://api.spotify.com/v1/search?q={song}&type=track"
             headers = {
@@ -119,17 +119,13 @@ def transfer():
             'Content-Type': 'application/json',
         }
         data = {
-            'uris': [f"spotify:track:{track_id}" for track_id in track_ids]
+            'uris': [f"spotify:track:{track_id}" for track_id in track_ids[:50]]
         }
         response = requests.post(url_add_tracks, headers=headers, data=json.dumps(data))
         if response.status_code == 201:
             print('Successfully added tracks to playlist')
         else:
-            return 'Failed to add tracks to playlist'
-        
-
-        
-            
+            return f'Failed to add tracks to playlist, Reason{response.reason}'    
         return 'Success!'
     else:
         return 'Please login to your Spotify account'
