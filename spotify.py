@@ -1,8 +1,32 @@
 import requests
 import json
 
+
+
+def auth():
+    # get the client_id and client_secret from the Spotify API
+    client_id = "a0800bb429564cfebffb8dda3709814f"
+    client_secret = '05b2d3c6551d4563bddecdbb5142c75c'
+    # get the access token from the Spotify API
+    url = "https://accounts.spotify.com/api/token"
+    data = {
+        "grant_type": "authorization_code",
+    }
+    response = requests.post(url, data=data, headers={
+        "Authorization": f"Basic {client_id}:{client_secret}",
+        "Content-type": "application/x-www-form-urlencoded"
+    })
+    if response.ok:
+        access_token = response.json()["access_token"]
+        print(access_token)
+    else:
+        print(response.status_code, response.reason)
+        return response.status_code
+    
+    return access_token
+
 def import_songs(playlist_id):
-    access_token = "BQAmgWgWdVLGZhPuii5Cx5jJZsIuL2I9tQ--Y3319kMrffYp7WLc8wvu5qLOvBGFjHBYA3AvTf99M6bePhLf9L1L-yvtLSOsaBWt7BJVvxY0E_4K2-6_ik_CeAvNGjSJotRGpy6ZQjhMCFOZ6EIzFg-CtXTHi4qp2-A0GOXvbb9n5G8-d_ntuRxZF-QNndYFwQh_4zQNFVc_OeaN9g"
+    access_token = auth()
     headers = {
         "Authorization": f"Bearer {access_token}",
         "Content-Type": "application/json",
@@ -20,6 +44,7 @@ def import_songs(playlist_id):
             print(track["track"]["name"])
     else:
         print(response.status_code, response.reason)
+        return response.status_code
 
     # extranct the song names from the playlist and store them in a list
     song_names = []
@@ -27,26 +52,27 @@ def import_songs(playlist_id):
         song_names.append(track["track"]["name"])
     return song_names
 
-def create_playlist(user_id, songs):
-    #iterate through all the song names from songs list and search them in spotify and add them to a new playlist
-    playlist_name = "Songs from " + user_id
-    playlist_id = "6uWdWOEIQxBtR12ym1ImHn"
-    url = f"https://api.spotify.com/v1/users/{user_id}/playlists"
-    headers = {
-        "Authorization": f"Bearer {access_token}",
-        "Content-Type": "application/json",
-    }
-    data = {
-        "name": playlist_name,
-        "description": "Songs from Amazon Music",
-        "public": False
-    }
-    response = requests.post(url, headers=headers, data=json.dumps(data))
 
-    # if the playlist was created successfully, add the songs to the playlist
-    if response.ok:
-        playlist_id = response.json()["id"]
-        add_songs_to_playlist(playlist_id, songs)
-    else:
-        print(response.status_code, response.reason)
+
+
+# def create_playlist(user_id, songs):
+#     tracks_id = []
+#     url_search = f"https://api.spotify.com/v1/search?q={song}&type=track"
+
+#     # Set the Authorization header with the access token
+#     headers = {
+#         'Authorization': f'Bearer {access_token}'
+#     }
+#     for song in songs:
+#         #search using spotify api
+#          search_params = {
+#             'q': song,
+#             'type': 'track'
+#         }
+
+if __name__ == '__main__':
+    import_songs("6uWdWOEIQxBtR12ym1ImHn")
+    
         
+    
+
