@@ -26,3 +26,27 @@ def import_songs(playlist_id):
     for track in tracks:
         song_names.append(track["track"]["name"])
     return song_names
+
+def create_playlist(user_id, songs):
+    #iterate through all the song names from songs list and search them in spotify and add them to a new playlist
+    playlist_name = "Songs from " + user_id
+    playlist_id = "6uWdWOEIQxBtR12ym1ImHn"
+    url = f"https://api.spotify.com/v1/users/{user_id}/playlists"
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json",
+    }
+    data = {
+        "name": playlist_name,
+        "description": "Songs from Amazon Music",
+        "public": False
+    }
+    response = requests.post(url, headers=headers, data=json.dumps(data))
+
+    # if the playlist was created successfully, add the songs to the playlist
+    if response.ok:
+        playlist_id = response.json()["id"]
+        add_songs_to_playlist(playlist_id, songs)
+    else:
+        print(response.status_code, response.reason)
+        
