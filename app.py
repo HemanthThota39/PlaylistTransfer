@@ -5,7 +5,7 @@ import scrap
 import json
 
 app = Flask(__name__)
-app.secret_key = 'Hem998$$'
+app.secret_key = 'spotify_playlist_transfer'
 
 # Set up the Spotify API credentials
 client_id = 'a0800bb429564cfebffb8dda3709814f'
