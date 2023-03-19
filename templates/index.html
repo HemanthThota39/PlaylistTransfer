@@ -1,18 +1,84 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>Playlist Transfer</title>
+	<link rel="icon" type="image/png" href="/favicon.png">
+	
+	<style>
+		body {
+			background: #282828;
+			background: linear-gradient(to left, #282828 0%, #1e1e1e 100%);
+			font-family: Circular, Helvetica, Arial, sans-serif;
+		}
+
+		/* Style the heading to be centered, bold and have white color */
+		h1 {
+			text-align: center;
+			font-weight: bold;
+			margin-top: 10%;
+			margin-bottom: 5.5%;
+			color: #fff;
+		}
+
+		/* Style the form */
+		form {
+			margin: 0 auto;
+			width: 400px;
+		}
+
+		/* Style the label for the Amazon Music Playlist URL input */
+		label[for="amazon_url"],
+		label[for="playlist_name"] {
+			display: block;
+			color: #b3b3b3;
+			margin-bottom: 10px;
+			font-weight: bold;
+		}
+
+		/* Style the Amazon Music Playlist URL and playlist name input fields */
+		input[type="text"][name="amazon_url"],
+		input[type="text"][name="playlist_name"] {
+			width: 100%;
+			padding: 10px;
+			font-size: 16px;
+			border-radius: 50px;
+			border: none;
+			background-color: #fff;
+			color: #191414;
+			margin-bottom: 20px;
+		}
+
+		/* Style the submit button */
+		input[type="submit"] {
+			background-color: #1db954;
+			border: none;
+			color: #fff;
+			font-size: 16px;
+			font-weight: bold;
+			padding: 10px 30px;
+			border-radius: 50px;
+			cursor: pointer;
+			width: 100%;
+		}
+
+		/* Style the submit button on hover */
+		input[type="submit"]:hover {
+			background-color: #1ed760;
+		}
+	</style>
+
 </head>
+
 <body>
-	<h1>Playlist Transfer</h1>
+	<h1>▶️ Playlist Transfer</h1>
 	<form method="POST" action="/transfer">
 		<label for="amazon_url">Amazon Music Playlist URL:</label>
 		<input type="text" name="amazon_url" id="amazon_url"><br><br>
-		
-		<label for="spotify_user_id">Spotify User ID:</label>
-		<input type="text" name="spotify_user_id" id="spotify_user_id"><br><br>
-		
-		<input type="submit" value="Transfer">
+		<label for="playlist_name">Playlist Name:</label>
+		<input type="text" name="playlist_name" id="playlist_name"><br><br>
+		<input type="submit" value="TRANSFER">
 	</form>
 </body>
+
 </html>

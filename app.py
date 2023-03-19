@@ -4,26 +4,26 @@ from urllib.parse import urlencode
 import scrap
 import json
 
-
 app = Flask(__name__)
+app.secret_key = 'Hem998$$'
 
 # Set up the Spotify API credentials
 client_id = 'a0800bb429564cfebffb8dda3709814f'
 client_secret = '5e99af487cba46de8360b1729d1c8e34'
-redirect_uri = 'http://localhost:5000/callback'
-app.secret_key = 'Hem998$$'
+redirect_uri = 'http://localhost:8000/callback'
+
 # Define the Spotify scopes required to read the user's playlist
 scopes = ['playlist-read-private', 'playlist-read-collaborative', 'playlist-modify-private','playlist-modify-public']
 
-@app.route('/login')
-def login():
+@app.route('/')
+def index():
     # Construct the Spotify authorization URL
     params = {
         'client_id': client_id,
         'response_type': 'code',
         'redirect_uri': redirect_uri,
         'scope': ' '.join(scopes),
-        'show_dialog': False
+        'show_dialog': True
 
     }
     url = 'https://accounts.spotify.com/authorize?' + urlencode(params)
@@ -38,8 +38,7 @@ def callback():
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization': f'Basic {client_id}:{client_secret}'
     }
-    print(request.args.get('code'))
-    redirect_uri = 'http://localhost:5000/callback'
+    redirect_uri = 'http://localhost:8000/callback'
     data = {
         'grant_type': 'authorization_code',
         'code': str(request.args.get('code')),
@@ -51,84 +50,32 @@ def callback():
     print(response.json())
     if response.status_code == 200:
         access_token = response.json()['access_token']
-        session['access_token'] = access_token
-        return redirect(url_for('index'))
+        session['access_token'] = access_token # store the token in the session
+        return redirect(url_for('amazon'))
     else:
         return 'Failed to obtain access token'
 
-@app.route('/')
-def index():
+@app.route('/amazon')
+def amazon():
    return render_template('index.html')
     
 @app.route('/transfer', methods=['POST'])
 def transfer():
     if 'access_token' in session:
-        # Create a Spotify client object using the access token
+        # obtain the names of user's playlists
+        url = f"https://api.spotify.com/v1/me/playlists"
+        playlist_name = request.form['playlist_name']
         amazon_url = request.form['amazon_url']
-        songs = scrap.getSongs(playlist_url=amazon_url)
-        track_ids = []
-        for song in list(songs):
-            #search the song name in spotify and get the top result and add the track id to list of track_ids
-            url = f"https://api.spotify.com/v1/search?q={song}&type=track"
-            headers = {
-                'Authorization': f'Bearer {session["access_token"]}',
-                'Content-Type': 'application/json',
-            }
-            response = requests.get(url, headers=headers)
-            if response.status_code == 200:
-                track_ids.append(response.json()['tracks']['items'][0]['id'])
-            else:
-                return 'Failed to get tracks'
-        
-        print(track_ids)
-        #get user's user_id
-        url = f"https://api.spotify.com/v1/me"
         headers = {
-            'Authorization': f'Bearer {session["access_token"]}',
+            'Authorization': f'Bearer {session["access_token"]}', # use the token from the session
             'Content-Type': 'application/json',
         }
-        response = requests.get(url, headers=headers)
-        if response.status_code == 200:
-            user_id = response.json()['id']
-        else:
-            return 'Failed to get user id'
-        print(user_id)
+        response = requests.get(url, headers=headers) # use GET instead of POST
+        print(response.json())
 
-        #create a playlist 
-        url_create_playlist = f"https://api.spotify.com/v1/users/{user_id}/playlists"
-        headers = {
-            'Authorization': f'Bearer {session["access_token"]}',
-            'Content-Type': 'application/json',
-        }
-        data = {
-            'name': 'Amazon Playlist',
-            'description': 'Playlist created from Amazon Music',
-            'public': True
-        }
-        response = requests.post(url_create_playlist, headers=headers, data=json.dumps(data))
-        if response.status_code == 201:
-            playlist_id = response.json()['id']
-        else:
-            return 'Failed to create playlist'
-        print(playlist_id)
-
-        #add tracks to the playlist using track_id from track_ids and playlist_id
-        url_add_tracks = f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
-        headers = {
-            'Authorization': f'Bearer {session["access_token"]}',
-            'Content-Type': 'application/json',
-        }
-        data = {
-            'uris': [f"spotify:track:{track_id}" for track_id in track_ids[:50]]
-        }
-        response = requests.post(url_add_tracks, headers=headers, data=json.dumps(data))
-        if response.status_code == 201:
-            print('Successfully added tracks to playlist')
-        else:
-            return f'Failed to add tracks to playlist, Reason{response.reason}'    
-        return 'Success!'
+        return str(response.json())
     else:
         return 'Please login to your Spotify account'
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=8000)

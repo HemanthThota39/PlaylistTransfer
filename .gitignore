@@ -130,3 +130,5 @@ dmypy.json
 
 msedgedriver.exe
 chromedriver.exe
+chromedriver
+LICENSE.chromedriver
