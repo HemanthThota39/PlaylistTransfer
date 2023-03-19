@@ -129,3 +129,4 @@ dmypy.json
 .pyre/
 
 msedgedriver.exe
+chromedriver.exe
