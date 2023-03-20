@@ -25,7 +25,7 @@ Creating an application that would transfer playlists accross the music streamin
 
 - Once you have logged in with your spotify credentials and accept the terms and conditions, you will be redirected to a page where you can paste your Playlist_url from Amazon Music, and enter what you want to name this playlist.
 
-- Click on transfer button and wait till the process finish and your browser says a success message! 🎉🎉🎉🎉
+- Click on transfer button and wait till the process finish (**You can see the progress in terminal window**) and your browser says a success message! 🎉🎉🎉🎉
 
 ## Limitations
 
