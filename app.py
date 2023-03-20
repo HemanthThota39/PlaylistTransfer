@@ -18,7 +18,7 @@ client_secret = os.environ['CLIENT_SECRET']
 redirect_uri = os.environ['REDIRECT_URI']
 
 # Define the Spotify scopes required to read the user's playlist
-scopes = ['playlist-read-private', 'playlist-read-collaborative', 'playlist-modify-private','playlist-modify-public']
+scopes = ['playlist-modify-private','playlist-modify-public']
 
 @app.route('/')
 def index():

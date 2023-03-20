@@ -1,29 +1,6 @@
 import requests
 import json
 from math import *
-def import_songs(playlist_id, access_token):
-    headers = {
-        "Authorization": f"Bearer {access_token}",
-        "Content-Type": "application/json",
-    }
-    # get the playlist
-    url = f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
-    response = requests.get(url, headers=headers)
-
-    # print track information
-    if response.ok:
-        tracks = response.json()["items"]
-        for track in tracks:
-            print(track["track"]["name"])
-    else:
-        print(response.status_code, response.reason)
-        return response.status_code
-
-    # extranct the song names from the playlist and store them in a list
-    song_names = []
-    for track in tracks:
-        song_names.append(track["track"]["name"])
-    return song_names
 
 def get_user_id(headers):
     url = f"https://api.spotify.com/v1/me"
@@ -46,7 +23,9 @@ def get_track_ids(songs, headers):
             return 'Failed to get tracks'
     return track_ids
 
-def get_new_playlist(user_id, playlist_name, headers):
+def get_new_playlist(user_id, headers, playlist_name = ''):
+    if playlist_name == '':
+        playlist_name = 'Amazon Music Playlist'
     url_create_playlist = f"https://api.spotify.com/v1/users/{user_id}/playlists"
     data = {
         'name': playlist_name,
@@ -83,7 +62,7 @@ def create_playlist(songs, access_token, playlist_name = 'Amazon Playlist'):
     print(f'User ID: {user_id}')
 
     # Create a playlist 
-    playlist_id = get_new_playlist(user_id, playlist_name, headers)
+    playlist_id = get_new_playlist(user_id, headers, playlist_name)
     print(f'Playlist ID: {playlist_id}')
 
     # Add tracks to the playlist using track_id from track_ids and playlist_id
