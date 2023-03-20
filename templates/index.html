@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
-
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Playlist Transfer</title>
-	<link rel="shortcut icon" href="{{ url_for('static', filename='music.ico') }}">
+	<link rel="shortcut icon" href="{{ url_for('static', filename='music-playlist.ico') }}">
 	
 	<style>
 		body {
@@ -20,11 +20,27 @@
 			margin-bottom: 5.5%;
 			color: #fff;
 		}
+		
+		/* Style the heading on small screens */
+		@media (max-width: 480px) {
+			h1 {
+				font-size: 32px;
+				margin-top: 20%;
+				margin-bottom: 2%;
+			}
+		}
 
 		/* Style the form */
 		form {
 			margin: 0 auto;
 			width: 400px;
+		}
+		
+		/* Style the form on small screens */
+		@media (max-width: 480px) {
+			form {
+				width: 80%;
+			}
 		}
 
 		/* Style the label for the Amazon Music Playlist URL input */
@@ -48,6 +64,16 @@
 			color: #191414;
 			margin-bottom: 20px;
 		}
+		
+		/* Style the input fields on small screens */
+		@media (max-width: 480px) {
+			input[type="text"][name="amazon_url"],
+			input[type="text"][name="playlist_name"] {
+				font-size: 14px;
+				padding: 8px;
+				margin-bottom: 10px;
+			}
+		}
 
 		/* Style the submit button */
 		input[type="submit"] {
@@ -65,6 +91,14 @@
 		/* Style the submit button on hover */
 		input[type="submit"]:hover {
 			background-color: #1ed760;
+		}
+		
+		/* Style the submit button on small screens */
+		@media (max-width: 480px) {
+			input[type="submit"] {
+				font-size: 14px;
+				padding: 8px 20px;
+			}
 		}
 	</style>
 	
@@ -87,4 +121,4 @@
 	</form>
 </body>
 
-</html>
+
