@@ -32,6 +32,8 @@ Creating an application that would transfer playlists accross the music streamin
 - As this app is in development mode, you can add only upto 25 users on the same developer account and you have to add new users in `USERS AND ACCESS` menu in your dashboard.
 
 - For now we are supporting only Playlist_URLs from Amazon_music
+- Might miss on few songs of regional language
+
 
 
 
