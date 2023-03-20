@@ -3,6 +3,7 @@ import requests
 from urllib.parse import urlencode
 import scrap
 import json
+import spotify
 
 app = Flask(__name__)
 app.secret_key = 'spotify_playlist_transfer'
@@ -62,18 +63,10 @@ def amazon():
 @app.route('/transfer', methods=['POST'])
 def transfer():
     if 'access_token' in session:
-        # obtain the names of user's playlists
-        url = f"https://api.spotify.com/v1/me/playlists"
-        playlist_name = request.form['playlist_name']
+        # Create a Spotify client object using the access token
         amazon_url = request.form['amazon_url']
-        headers = {
-            'Authorization': f'Bearer {session["access_token"]}', # use the token from the session
-            'Content-Type': 'application/json',
-        }
-        response = requests.get(url, headers=headers) # use GET instead of POST
-        print(response.json())
-
-        return str(response.json())
+        songs = scrap.getSongs(playlist_url=amazon_url)
+        return spotify.create_playlist(songs,session['access_token'], request.form['playlist_name'])
     else:
         return 'Please login to your Spotify account'
 

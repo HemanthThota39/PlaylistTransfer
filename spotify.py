@@ -1,32 +1,7 @@
 import requests
 import json
-
-
-
-def auth():
-    # get the client_id and client_secret from the Spotify API
-    client_id = "a0800bb429564cfebffb8dda3709814f"
-    client_secret = '05b2d3c6551d4563bddecdbb5142c75c'
-    # get the access token from the Spotify API
-    url = "https://accounts.spotify.com/api/token"
-    data = {
-        "grant_type": "authorization_code",
-    }
-    response = requests.post(url, data=data, headers={
-        "Authorization": f"Basic {client_id}:{client_secret}",
-        "Content-type": "application/x-www-form-urlencoded"
-    })
-    if response.ok:
-        access_token = response.json()["access_token"]
-        print(access_token)
-    else:
-        print(response.status_code, response.reason)
-        return response.status_code
-    
-    return access_token
-
-def import_songs(playlist_id):
-    access_token = auth()
+from math import *
+def import_songs(playlist_id, access_token):
     headers = {
         "Authorization": f"Bearer {access_token}",
         "Content-Type": "application/json",
@@ -52,27 +27,69 @@ def import_songs(playlist_id):
         song_names.append(track["track"]["name"])
     return song_names
 
+def get_user_id(headers):
+    url = f"https://api.spotify.com/v1/me"
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        user_id = response.json()['id']
+    else:
+        return 'Failed to get user id'
+    return user_id
 
+def get_track_ids(songs, headers):
+    track_ids = []
+    for song in list(songs):
+        # search the song name in spotify and get the top result and add the track id to list of track_ids
+        url = f"https://api.spotify.com/v1/search?q={song[0]}&type=track"
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            track_ids.append(response.json()['tracks']['items'][0]['id'])
+        else:
+            return 'Failed to get tracks'
+    return track_ids
 
+def get_new_playlist(user_id, playlist_name, headers):
+    url_create_playlist = f"https://api.spotify.com/v1/users/{user_id}/playlists"
+    data = {
+        'name': playlist_name,
+        'description': 'Playlist created from Amazon Music',
+        'public': True
+    }
+    response = requests.post(url_create_playlist, headers=headers, data=json.dumps(data))
+    if response.status_code == 201:
+        return response.json()['id']
+    else:
+        return 'Failed to create playlist'
 
-# def create_playlist(user_id, songs):
-#     tracks_id = []
-#     url_search = f"https://api.spotify.com/v1/search?q={song}&type=track"
+def add_tracks(track_ids, playlist_id, headers):
+    url_add_tracks = f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
+    for x in range(ceil(len(track_ids)/100)):
+        data = {
+            'uris': [f"spotify:track:{track_id}" for track_id in track_ids[x*100:(x+1)*100]]
+        }
+        response = requests.post(url_add_tracks, headers=headers, data=json.dumps(data))
+        if response.status_code is not 201:
+            return f'Failed to add tracks to playlist, Reason: {response.reason}'  
+    return('Successfully added tracks to playlist')
 
-#     # Set the Authorization header with the access token
-#     headers = {
-#         'Authorization': f'Bearer {access_token}'
-#     }
-#     for song in songs:
-#         #search using spotify api
-#          search_params = {
-#             'q': song,
-#             'type': 'track'
-#         }
+def create_playlist(songs, access_token, playlist_name = 'Amazon Playlist'):
+    headers = {
+        'Authorization': f'Bearer {access_token}',
+        'Content-Type': 'application/json',
+    }
+    track_ids = get_track_ids(songs, headers)
+    print(f'Number of Track IDs: {len(track_ids)}')
+
+    # Get user's user_id
+    user_id = get_user_id(headers)
+    print(f'User ID: {user_id}')
+
+    # Create a playlist 
+    playlist_id = get_new_playlist(user_id, playlist_name, headers)
+    print(f'Playlist ID: {playlist_id}')
+
+    # Add tracks to the playlist using track_id from track_ids and playlist_id
+    return add_tracks(track_ids, playlist_id, headers)
 
 if __name__ == '__main__':
     import_songs("6uWdWOEIQxBtR12ym1ImHn")
-    
-        
-    
-
