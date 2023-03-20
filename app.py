@@ -5,16 +5,17 @@ import scrap
 import json
 import spotify
 import os
-
+from dotenv import load_dotenv
+load_dotenv()
 app = Flask(__name__)
 app.secret_key = 'spotify_playlist_transfer'
 
 # Read the Spotify API credentials from environment variables
-client_id = os.environ.get('CLIENT_ID')
-client_secret = os.environ.get('CLIENT_SECRET')
+client_id = os.environ['CLIENT_ID']
+client_secret = os.environ['CLIENT_SECRET']
 
 # Define the redirect URI for the application, be sure to add this in the Spotify developer dashboard
-redirect_uri = os.environ.get('REDIRECT_URI')
+redirect_uri = os.environ['REDIRECT_URI']
 
 # Define the Spotify scopes required to read the user's playlist
 scopes = ['playlist-read-private', 'playlist-read-collaborative', 'playlist-modify-private','playlist-modify-public']
