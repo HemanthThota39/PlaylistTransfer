@@ -14,7 +14,7 @@ def get_user_id(headers):
 
 def get_track_ids(songs, headers):
     track_ids = []
-    for song in tqdm(list(songs), desc = 'Songs Fetched: '):
+    for song in list(songs):
         # search the song name in spotify and get the top result and add the track id to list of track_ids
         url = f"https://api.spotify.com/v1/search?q={song[0]} {song[1]}&type=track"
         response = requests.get(url, headers=headers)
