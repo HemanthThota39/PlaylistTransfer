@@ -4,14 +4,17 @@ from urllib.parse import urlencode
 import scrap
 import json
 import spotify
+import os
 
 app = Flask(__name__)
 app.secret_key = 'spotify_playlist_transfer'
 
-# Set up the Spotify API credentials
-client_id = 'a0800bb429564cfebffb8dda3709814f'
-client_secret = '5e99af487cba46de8360b1729d1c8e34'
-redirect_uri = 'http://localhost:8000/callback'
+# Read the Spotify API credentials from environment variables
+client_id = os.environ['CLIENT_ID']
+client_secret = os.environ['CLIENT_SECRET']
+
+# Define the redirect URI for the application, be sure to add this in the Spotify developer dashboard
+redirect_uri = os.environ['REDIRECT_URI']
 
 # Define the Spotify scopes required to read the user's playlist
 scopes = ['playlist-read-private', 'playlist-read-collaborative', 'playlist-modify-private','playlist-modify-public']
@@ -39,13 +42,12 @@ def callback():
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization': f'Basic {client_id}:{client_secret}'
     }
-    redirect_uri = 'http://localhost:8000/callback'
     data = {
         'grant_type': 'authorization_code',
         'code': str(request.args.get('code')),
-        'redirect_uri': redirect_uri,
-        'client_id' : 'a0800bb429564cfebffb8dda3709814f',
-        'client_secret' : '5e99af487cba46de8360b1729d1c8e34',
+        'redirect_uri': f'{redirect_uri}',
+        'client_id' : f'{client_id}',
+        'client_secret' : f'{client_secret}',
     }
     response = requests.post(url='https://accounts.spotify.com/api/token', data=data)
     print(response.json())

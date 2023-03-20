@@ -1,6 +1,10 @@
 from selenium.webdriver import Chrome, ChromeOptions
 from bs4 import BeautifulSoup
 import time
+import os
+
+
+
 
 def getSongs(playlist_url='', playlist_id=''):
     if playlist_url == '':
@@ -9,9 +13,8 @@ def getSongs(playlist_url='', playlist_id=''):
     options = ChromeOptions()
     options.add_argument('--disable-extensions')
     # options.add_argument('--headless')
-
-    driver = Chrome(options=options)
-
+    chromedriver_path = os.path.join(os.getcwd(), 'chromedriver')  # Assumes chromedriver is in the same directory as the script file
+    driver = Chrome(executable_path=chromedriver_path, options=options)
     print("Getting the songs from url....")
     driver.get(playlist_url)
 

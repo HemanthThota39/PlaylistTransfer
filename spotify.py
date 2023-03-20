@@ -6,9 +6,7 @@ def import_songs(playlist_id, access_token):
         "Authorization": f"Bearer {access_token}",
         "Content-Type": "application/json",
     }
-
-    # make GET request to retrieve tracks from playlist
-    playlist_id = "6uWdWOEIQxBtR12ym1ImHn"
+    # get the playlist
     url = f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
     response = requests.get(url, headers=headers)
 
@@ -90,6 +88,3 @@ def create_playlist(songs, access_token, playlist_name = 'Amazon Playlist'):
 
     # Add tracks to the playlist using track_id from track_ids and playlist_id
     return add_tracks(track_ids, playlist_id, headers)
-
-if __name__ == '__main__':
-    import_songs("6uWdWOEIQxBtR12ym1ImHn")

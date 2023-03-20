@@ -132,3 +132,4 @@ msedgedriver.exe
 chromedriver.exe
 chromedriver
 LICENSE.chromedriver
+.env
