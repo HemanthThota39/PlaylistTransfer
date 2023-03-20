@@ -1,7 +1,6 @@
 import requests
 import json
 from math import *
-from tqdm import tqdm
 
 def get_user_id(headers):
     url = f"https://api.spotify.com/v1/me"
