@@ -1,14 +1,23 @@
-// select the progress bar element
-const progressBar = document.querySelector('progress')
-function updateProgressBar(){
-    // make an AJAX request to fetch progress data from the server
-    fetch('/progress')
-    .then(response => response.json())
-    .then(data => {
-        const progress = (data.fetched / data.total) * 100;
-        progressBar.setAttribute('value', progress);
-    })
-    .catch(error => console.log(error))
+// get reference to the progress bar
+function update()
+{const progressBar = document.getElementById("progressBar");
+
+// make a GET request to retrieve the progress data
+fetch("/progress")
+  .then(response => response.json())
+  .then(data => {
+    // update the progress bar's value and max attributes
+    progressBar.value = data.fetched;
+    progressBar.max = data.total;
+
+    // update the progress text (assuming you have an element with an id of "progressText")
+    document.getElementById("progressText").textContent = data.progress;
+
+    // log the progress to the console (optional)
+    console.log(`Progress: ${data.progress}/${data.total}`);
+  })
+  .catch(error => {
+    console.error(`Error retrieving progress: ${error}`);
+  });
 }
-console.log("Working")
-setInterval(updateProgressBar, 1000)
+setInterval(update, 1000)
