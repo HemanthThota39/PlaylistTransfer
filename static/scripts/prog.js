@@ -10,9 +10,6 @@ fetch("/progress")
     progressBar.value = data.fetched;
     progressBar.max = data.total;
 
-    // update the progress text (assuming you have an element with an id of "progressText")
-    document.getElementById("progressText").textContent = data.progress;
-
     // log the progress to the console (optional)
     console.log(`Progress: ${data.progress}/${data.total}`);
   })

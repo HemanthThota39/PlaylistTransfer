@@ -64,13 +64,7 @@ def callback():
 @app.route('/amazon')
 def amazon():
    return render_template('index.html')
-    
-@app.route('/progress_bar')
-def progress():
-    fetched, total = spotify.prog()
-    return render_template('prog.html',progress = fetched, total = total)
 
-@app.route('/progress')
 def progress_bar():
     fetched, total = spotify.prog()
     data = {

@@ -100,6 +100,32 @@
 				padding: 8px 20px;
 			}
 		}
+
+		#progressBar {
+  width: 80%;
+  margin: 0 auto;
+  display: block;
+  height: 25px;
+  border-radius: 50px;
+  background-color: #191414;
+  border: none;
+}
+
+#progressBar::-webkit-progress-bar {
+  border-radius: 50px;
+  background-color: #191414;
+}
+
+#progressBar::-webkit-progress-value {
+  border-radius: 50px;
+  background-color: #1db954;
+}
+
+#progressBar::-moz-progress-bar {
+  border-radius: 50px;
+  background-color: #1db954;
+}
+
 	</style>
 	
 </head>
@@ -119,6 +145,8 @@
 		<input type="text" name="playlist_name" id="playlist_name"><br><br>
 		<input type="submit" value="TRANSFER">
 	</form>
+	<script src = '/static/scripts/prog.js'></script>
+	<progress type = "submit" id="progressBar" value={{ progress }} max={{total}}></progress>
 </body>
 
 
