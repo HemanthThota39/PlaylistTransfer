@@ -1,43 +1,48 @@
-body {
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
     background-color: #f1f1f1;
     background-image: url('/static/bg-3.jpg');
-    background-repeat: no-repeat;
     background-size: cover;
+    background-position: center center;
     font-family: Arial, sans-serif;
   }
   
-  form {
-    display: flex;
-    width: 40%;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(255, 255, 255, 0.4);
-    border-radius: 20px;
-    padding: 20px;
-    margin-left: 30%;
-    margin-right: 30%;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+    .form {
+      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
+      background-color: rgba(255, 255, 255, 0.74);
+    }
   }
   
-  input[type="text"], input[type="submit"] {
+  
+  input[type="text"],
+  input[type="submit"] {
+    display: inline-block;
     font-size: 16px;
+    text-align: left;
     padding: 10px;
     border-radius: 5px;
     border: none;
-    margin-bottom: 10px;
-    margin-left: 10px;
-    margin-right: 10px;
-    width: 100%;
+    margin-left: 2%;
+    margin-right: 2%;
+    width: 68%;
   }
   
+  
   input[type="submit"] {
-    background-color: #4CAF50;
+    background-color: rgba(76, 175, 80, 0.9);
+    justify-content: center;
+    text-align: center;
     color: white;
     cursor: pointer;
   }
+
   
   input[type="submit"]:hover {
     background-color: #45a049;
@@ -62,6 +67,92 @@ body {
     border-radius: 10px;
   }
   
-  .glass-container{
-    text-align: center;
+
+  
+  form {
+    margin-left: 5%;
+    margin-right: 5%;
+    width: 90%;
+    display: inline-block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
+
+  label {
+    text-align: left;
+    width: 100%;
+    margin-bottom: 5px;
+    margin-right: 1em;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  
+  input[type="text"] {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 0.5px;
+    margin-left: 1em;
+    width: 100%;
+  }
+  .glass-container {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    padding: 1em;
+    margin: 0 auto;
+    width: 40%;
+    max-width: 40%;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+  }
+
+    #transfer-btn {
+    background-color: #2196F3;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  #transfer-btn:hover {
+    background-color: #0b7dda;
+  }
+  
+  #transfer-btn:active {
+    background-color: #0b7dda;
+    transform: translateY(2px);
+  }
+
+  progress[value]::-webkit-progress-value {
+    background-color: #4CAF50;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  progress[value]::-webkit-progress-value::before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #4CAF50;
+    transform-origin: left center;
+    transform: scaleX(var(--webkit-progress-value));
+  }
+  
+
+  
