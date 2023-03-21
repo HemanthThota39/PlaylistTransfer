@@ -2,6 +2,11 @@ import requests
 import json
 from math import *
 
+global fetched
+fetched = 0
+global total
+total = 100
+
 def get_user_id(headers):
     url = f"https://api.spotify.com/v1/me"
     response = requests.get(url, headers=headers)
@@ -11,13 +16,21 @@ def get_user_id(headers):
         return 'Failed to get user id'
     return user_id
 
+def prog():
+    return fetched, total
+
 def get_track_ids(songs, headers):
+    global fetched
+    global total
     track_ids = []
+    fetched = 0
+    total = len(songs)
     for song in list(songs):
         # search the song name in spotify and get the top result and add the track id to list of track_ids
         url = f"https://api.spotify.com/v1/search?q={song[0]} {song[1]}&type=track"
         response = requests.get(url, headers=headers)
         if response.status_code == 200:
+            fetched += 1
             track_ids.append(response.json()['tracks']['items'][0]['id'])
         else:
             return 'Failed to get tracks'

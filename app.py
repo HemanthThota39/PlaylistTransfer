@@ -1,4 +1,4 @@
-from flask import Flask, redirect, request, session, url_for, render_template
+from flask import Flask, redirect, request, session, url_for, render_template, jsonify
 import requests
 from urllib.parse import urlencode
 import scrap
@@ -6,6 +6,8 @@ import json
 import spotify
 import os
 from dotenv import load_dotenv
+
+
 load_dotenv()
 app = Flask(__name__)
 app.secret_key = 'spotify_playlist_transfer'
@@ -63,6 +65,20 @@ def callback():
 def amazon():
    return render_template('index.html')
     
+@app.route('/progress_bar')
+def progress():
+    fetched, total = spotify.prog()
+    return render_template('prog.html',progress = fetched, total = total)
+
+@app.route('/progress')
+def progress_bar():
+    fetched, total = spotify.prog()
+    data = {
+        'fetched' : fetched,
+        'total' : total,
+    }
+    return json.dumps(data)
+
 @app.route('/transfer', methods=['POST'])
 def transfer():
     if 'access_token' in session:
