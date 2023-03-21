@@ -12,5 +12,5 @@ function updateProgressBar() {
     .catch(error => console.log(error));
 }
 
-setInterval(updateProgressBar, 1000);
+setInterval(updateProgressBar, 3000);
 

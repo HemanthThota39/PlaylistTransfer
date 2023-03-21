@@ -14,16 +14,17 @@
 			<span style="vertical-align: middle;">Playlist Transfer</span>
 		</h1>
 	</h1>
-	
-	<form method="POST" action="/transfer">
-		<label for="amazon_url">Amazon Music Playlist URL:</label>
-		<input type="text" name="amazon_url" id="amazon_url"><br><br>
-		<label for="playlist_name">Playlist Name:</label>
-		<input type="text" name="playlist_name" id="playlist_name"><br><br>
-		<input id="transfer-btn" type="submit" value="TRANSFER">
-	</form>
+	<div class="glass-container">
+		<form method="POST" action="/transfer">
+			<label for="amazon_url">Amazon Music Playlist URL:</label>
+			<input type="text" name="amazon_url" id="amazon_url"><br><br>
+			<label for="playlist_name">Playlist Name:</label>
+			<input type="text" name="playlist_name" id="playlist_name"><br><br>
+			<input id="transfer-btn" type="submit" value="TRANSFER">
+		</form>
+		<progress id="progressBar" value={{ progress }} max={{total}}></progress>
+	</div>
 	<script src = '/static/scripts/prog.js'></script>
-	<progress id="progressBar" value={{ progress }} max={{total}}></progress>
 </body>
 
 

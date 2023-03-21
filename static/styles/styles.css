@@ -1,120 +1,67 @@
 body {
-    background: #282828;
-    background: linear-gradient(to left, #282828 0%, #1e1e1e 100%);
-    font-family: Circular, Helvetica, Arial, sans-serif;
-}
-
-/* Style the heading to be centered, bold and have white color */
-h1 {
-    text-align: center;
-    font-weight: bold;
-    margin-top: 10%;
-    margin-bottom: 5.5%;
-    color: #fff;
-}
-
-/* Style the heading on small screens */
-@media (max-width: 480px) {
-    h1 {
-        font-size: 32px;
-        margin-top: 20%;
-        margin-bottom: 2%;
-    }
-}
-
-/* Style the form */
-form {
-    margin: 0 auto;
-    width: 400px;
-}
-
-/* Style the form on small screens */
-@media (max-width: 480px) {
-    form {
-        width: 80%;
-    }
-}
-
-/* Style the label for the Amazon Music Playlist URL input */
-label[for="amazon_url"],
-label[for="playlist_name"] {
-    display: block;
-    color: #b3b3b3;
-    margin-bottom: 10px;
-    font-weight: bold;
-}
-
-/* Style the Amazon Music Playlist URL and playlist name input fields */
-input[type="text"][name="amazon_url"],
-input[type="text"][name="playlist_name"] {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 50px;
-    border: none;
-    background-color: #fff;
-    color: #191414;
-    margin-bottom: 20px;
-}
-
-/* Style the input fields on small screens */
-@media (max-width: 480px) {
-    input[type="text"][name="amazon_url"],
-    input[type="text"][name="playlist_name"] {
-        font-size: 14px;
-        padding: 8px;
-        margin-bottom: 10px;
-    }
-}
-
-/* Style the submit button */
-input[type="submit"] {
-    background-color: #1db954;
-    border: none;
-    color: #fff;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 10px 30px;
-    border-radius: 50px;
-    cursor: pointer;
-    width: 100%;
-}
-
-/* Style the submit button on hover */
-input[type="submit"]:hover {
-    background-color: #1ed760;
-}
-
-/* Style the submit button on small screens */
-@media (max-width: 480px) {
-    input[type="submit"] {
-        font-size: 14px;
-        padding: 8px 20px;
-    }
-}
-
-#progressBar {
-    width: 50%;
-    display: block;
-    height: 25px;
-    border-radius: 50px;
-    background-color: #191414;
-    border: none;
-    margin: 5% auto; /* Add margin auto to center horizontally */
+    background-color: #f1f1f1;
+    background-image: url('/static/bg-3.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: Arial, sans-serif;
   }
   
-
-#progressBar::-webkit-progress-bar {
-border-radius: 50px;
-background-color: #191414;
-}
-
-#progressBar::-webkit-progress-value {
-border-radius: 50px;
-background-color: #1db954;
-}
-
-#progressBar::-moz-progress-bar {
-border-radius: 50px;
-background-color: #1db954;
-}
+  form {
+    display: flex;
+    width: 40%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 20px;
+    padding: 20px;
+    margin-left: 30%;
+    margin-right: 30%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  input[type="text"], input[type="submit"] {
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 100%;
+  }
+  
+  input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+  }
+  
+  input[type="submit"]:hover {
+    background-color: #45a049;
+  }
+  
+  progress[value] {
+    width: 30%;
+    height: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  
+  progress[value]::-webkit-progress-bar {
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+  }
+  
+  progress[value]::-webkit-progress-value {
+    background-color: #4CAF50;
+    border-radius: 10px;
+  }
+  
+  .glass-container{
+    text-align: center;
+  }
