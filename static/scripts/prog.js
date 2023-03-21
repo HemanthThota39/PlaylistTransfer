@@ -1,20 +1,23 @@
-// get reference to the progress bar
-function update()
-{const progressBar = document.getElementById("progressBar");
+const progressbar = document.querySelector('#progressBar');
+const transferBtn = document.querySelector('#transfer-btn');
 
-// make a GET request to retrieve the progress data
-fetch("/progress")
-  .then(response => response.json())
-  .then(data => {
-    // update the progress bar's value and max attributes
-    progressBar.value = data.fetched;
-    progressBar.max = data.total;
-
-    // log the progress to the console (optional)
-    console.log(`Progress: ${data.progress}/${data.total}`);
-  })
-  .catch(error => {
-    console.error(`Error retrieving progress: ${error}`);
-  });
+function updateProgressBar() {
+  fetch('/progress')
+    .then(response => response.json())
+    .then(data => {
+      const progress = (data.fetched / data.total) * 100;
+      progressBar.setAttribute('value', progress);
+    })
+    .catch(error => console.log(error));
 }
-setInterval(update, 1000)
+
+// hide the progress bar initially
+progressbar.style.display = 'none';
+
+// add event listener to transfer button
+transferBtn.addEventListener('click', () => {
+  // show the progress bar
+  progressbar.style.display = 'block';
+  // call updateProgressBar() every 5 seconds
+  setInterval(updateProgressBar, 5000);
+});

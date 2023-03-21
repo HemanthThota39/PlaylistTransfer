@@ -94,14 +94,15 @@ input[type="submit"]:hover {
 }
 
 #progressBar {
-width: 80%;
-margin: 0 auto;
-display: block;
-height: 25px;
-border-radius: 50px;
-background-color: #191414;
-border: none;
-}
+    width: 50%;
+    display: none;
+    height: 25px;
+    border-radius: 50px;
+    background-color: #191414;
+    border: none;
+    margin: 5% auto; /* Add margin auto to center horizontally */
+  }
+  
 
 #progressBar::-webkit-progress-bar {
 border-radius: 50px;
