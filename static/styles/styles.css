@@ -95,7 +95,7 @@ input[type="submit"]:hover {
 
 #progressBar {
     width: 50%;
-    display: none;
+    display: block;
     height: 25px;
     border-radius: 50px;
     background-color: #191414;
