@@ -1,33 +1,64 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Playlist Transfer</title>
-	<link rel="shortcut icon" href="{{ url_for('static', filename='music-playlist.ico') }}">
-	<link rel="stylesheet" type="text/css" href="/static/styles/styles.css">
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-</head>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Playlist Transfer</title>
+    <link
+      rel="shortcut icon"
+      href="/static/images/music-playlist.ico"
+    />
+    <link rel="stylesheet" type="text/css" href="/static/styles/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
+      rel="stylesheet"
+    />
+  </head>
 
-<body>
-	<h1>
-		<h1 style="display: flex; align-items: center; justify-content: center; text-align: center;">
-			<img src="/static/music_playlist.png" alt="gif image" style="height: 1.7em; margin-right: 0.5em; vertical-align: middle;">
-			<span style="vertical-align: middle;">Playlist Transfer</span>
-		</h1>
-	</h1>
-	<div class="glass-container">
-		<form method="POST" action="/transfer">
-			<label for="amazon_url">Amazon Music Playlist URL:</label>
-			<input type="text" name="amazon_url" id="amazon_url"><br><br>
-			<label for="playlist_name">Playlist Name:</label>
-			<input type="text" name="playlist_name" id="playlist_name"><br><br>
-			<input id="transfer-btn" type="submit" value="TRANSFER">
-		</form>
-		<progress id="progressBar" value={{ progress }} max={{total}}></progress>
-	</div>
-	<script src = '/static/scripts/prog.js'></script>
-</body>
+  <body>
+    <h1>
+      <h1
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+        "
+      >
+        <img
+          src="/static/images/music_playlist.png"
+          alt="gif image"
+          style="height: 1.7em; margin-right: 0.5em; vertical-align: middle"
+        />
+        <span style="vertical-align: middle">Playlist Transfer</span>
+      </h1>
+    </h1>
+    <div class="container">
+      <div id="loginButton">{{ logged_in }}</div>
+      <img id="user_img" src="{{ user_image }}" alt="user_image" />
+      <!-- <span id="user_name">{{ user_name }}</span> -->
+    </div>
 
-
+    <div class="glass-container">
+      <form method="POST" action="/transfer">
+        <label for="amazon_url">Amazon Music Playlist URL:</label>
+        <input type="text" name="amazon_url" id="amazon_url" /><br /><br />
+        <label for="playlist_name">Playlist Name:</label>
+        <input
+          type="text"
+          name="playlist_name"
+          id="playlist_name"
+        /><br /><br />
+        <input id="transfer-btn" type="submit" value="TRANSFER" />
+      </form>
+      <progress
+        id="progressBar"
+        value="1"
+        max="1"
+      ></progress>
+    </div>
+    <script src="/static/scripts/prog.js"></script>
+    <script src="/static/scripts/login.js"></script>
+  </body>
+</html>

@@ -2,20 +2,32 @@ from selenium.webdriver import Chrome, ChromeOptions
 from bs4 import BeautifulSoup
 import time
 import os
-
-
-
+import validators
+from urllib.parse import urlparse
 
 def getSongs(playlist_url='', playlist_id=''):
     if playlist_url == '':
         playlist_url = f'https://music.amazon.in/user-playlists/{playlist_id}'
+        if playlist_id == '':
+            return set()
 
     options = ChromeOptions()
     options.add_argument('--disable-extensions')
     # options.add_argument('--headless')
     chromedriver_path = os.path.join(os.getcwd(), 'chromedriver')  # Assumes chromedriver is in the same directory as the script file
-    driver = Chrome(executable_path=chromedriver_path, options=options)
     print("Getting the songs from url....")
+    if not validators.url(playlist_url):
+        print("Invalid playlist URL or domain is not supported.")
+        return set()
+
+    parsed_url = urlparse(playlist_url)
+    if parsed_url.netloc != 'music.amazon.in':
+        print("Invalid playlist URL or domain is not supported.")
+        return set()
+
+
+    driver = Chrome(executable_path=chromedriver_path, options=options)
+
     driver.get(playlist_url)
 
     # Wait for the page to fully render
@@ -57,11 +69,3 @@ def getSongs(playlist_url='', playlist_id=''):
             break
         last_count = len(songs_data)
     return songs_data
-
-
-if __name__ == "__main__":
-    songs = getSongs(playlist_url='https://music.amazon.in/user-playlists/e6fe2efcf6c748c9b5e3bf71dc6507c2i8n0?ref=dm_sh_b7iRPSNXUWG6Un8eYy523VcJM')
-    for song in songs:
-        print(song)
-    print()
-    print(len(songs))

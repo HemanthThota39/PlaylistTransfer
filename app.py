@@ -20,10 +20,22 @@ client_secret = os.environ['CLIENT_SECRET']
 redirect_uri = os.environ['REDIRECT_URI']
 
 # Define the Spotify scopes required to read the user's playlist
-scopes = ['playlist-modify-private','playlist-modify-public']
+scopes = ['user-read-private', 'playlist-modify-private','playlist-modify-public']
+
+# Define a global variable to store whether the user is logged in or not
+logged_in = False
+spotify_logo = '/static/images/spotify-logo.png'
 
 @app.route('/')
 def index():
+    if(logged_in):
+        display_image = spotify.get_user_image(session['access_token'])
+    else:
+        display_image = spotify_logo
+    return render_template('index.html', logged_in=('Log out' if logged_in else 'Log in'), user_image=display_image)
+
+@app.route('/login')
+def login_oauth():
     # Construct the Spotify authorization URL
     params = {
         'client_id': client_id,
@@ -31,12 +43,18 @@ def index():
         'redirect_uri': redirect_uri,
         'scope': ' '.join(scopes),
         'show_dialog': True
-
     }
     url = 'https://accounts.spotify.com/authorize?' + urlencode(params)
     
     # Redirect the user to the authorization URL to enter their credentials
     return redirect(url)
+
+@app.route('/logout')
+def logout():
+    global logged_in
+    logged_in = False
+    session.pop('access_token', None)
+    return redirect(url_for('index'))
 
 @app.route('/callback')
 def callback():
@@ -57,14 +75,12 @@ def callback():
     if response.status_code == 200:
         access_token = response.json()['access_token']
         session['access_token'] = access_token # store the token in the session
-        return redirect(url_for('amazon'))
+        global logged_in
+        logged_in = True
+        return redirect(url_for('index'))
     else:
         return 'Failed to obtain access token'
 
-@app.route('/amazon')
-def amazon():
-   return render_template('index.html')
-    
 @app.route('/progress')
 def progress_bar():
     fetched, total = spotify.prog()
@@ -80,7 +96,11 @@ def transfer():
         # Create a Spotify client object using the access token
         amazon_url = request.form['amazon_url']
         songs = scrap.getSongs(playlist_url=amazon_url)
-        return spotify.create_playlist(songs,session['access_token'], request.form['playlist_name'])
+        if songs.__len__() == 0:
+            return 'Invalid Amazon Playlist URL or Empty Playlist'
+        created = spotify.create_playlist(songs,session['access_token'], request.form['playlist_name'])
+        if(created == 'Success'):
+            return redirect(url_for('index'))
     else:
         return 'Please login to your Spotify account'
 

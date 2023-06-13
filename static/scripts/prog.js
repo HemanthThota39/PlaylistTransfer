@@ -1,5 +1,3 @@
-
-
 function updateProgressBar() {
   progressBar = document.getElementById("progressBar");
   fetch('/progress')
@@ -12,5 +10,7 @@ function updateProgressBar() {
     .catch(error => console.log(error));
 }
 
-setInterval(updateProgressBar, 3000);
+var loginButton = document.getElementById("loginButton");
+if(loginButton.textContent == "Log out")
+	setInterval(updateProgressBar, 3000);
 

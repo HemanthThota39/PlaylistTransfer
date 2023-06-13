@@ -60,7 +60,7 @@ def add_tracks(track_ids, playlist_id, headers):
         response = requests.post(url_add_tracks, headers=headers, data=json.dumps(data))
         if response.status_code is not 201:
             return f'Failed to add tracks to playlist, Reason: {response.reason}'  
-    return('Successfully added tracks to playlist')
+    return 'Success'
 
 def create_playlist(songs, access_token, playlist_name = 'Amazon Playlist'):
     headers = {
@@ -80,3 +80,15 @@ def create_playlist(songs, access_token, playlist_name = 'Amazon Playlist'):
 
     # Add tracks to the playlist using track_id from track_ids and playlist_id
     return add_tracks(track_ids, playlist_id, headers)
+
+def get_user_image(access_token):
+    headers = {
+        'Authorization': f'Bearer {access_token}',
+        'Content-Type': 'application/json',
+    }
+    url = f"https://api.spotify.com/v1/me"
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        return response.json()['images'][0]['url']
+    else:
+        return 'Failed to get user image'

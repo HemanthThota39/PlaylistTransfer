@@ -1,3 +1,33 @@
+.container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex; /* Add this line to enable flexbox layout */
+  align-items: center; /* Add this line to vertically center the items */
+}
+
+#loginButton {
+  padding: 10px 20px;
+  border-radius: 20px;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+  display: flex; /* Add this line to enable flexbox layout */
+  align-items: center; /* Add this line to vertically center the items */
+}
+
+#user_img {
+  height: 40px; /* Adjust the size of the circular image as needed */
+  width: 40px; /* Adjust the size of the circular image as needed */
+  border-radius: 50%; /* Add this line to make the image circular */
+  margin-right: 5px; /* Add some spacing between the image and the login capsule */
+  order: -1; /* Add this line to change the order of the image */
+  position: relative; /* Add this line to enable z-index positioning */
+  z-index: 1;
+}
+
+
+
 html, body {
     height: 100%;
     margin: 0;
@@ -6,7 +36,7 @@ html, body {
   
   body {
     background-color: #f1f1f1;
-    background-image: url('/static/bg-3.jpg');
+    background-image: url('/static/images/bg.jpg');
     background-size: cover;
     background-position: center center;
     font-family: Arial, sans-serif;
